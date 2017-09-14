@@ -44,70 +44,37 @@ var requestHandler = function(request, response) {
 
   var room = '/classes/room';
 
+  if ( request.method === 'OPTIONS' ) {
+    statusCode = 200;
+  }
+
   if ( endPoint !== pathName ) {
     statusCode = 404;
   }
 
-  if ( request.method === "GET" && endPoint === pathName || endPoint === room ) {
+  if ( request.method === "GET" && endPoint === pathName ) {
     statusCode = 200;
-    // console.log(request);
-    // console.log(url2.parse(request.url, true));
-    console.log('YUUUUU wins')
-    console.log(responseData);
   }
   if ( request.method === "POST" && endPoint === pathName || endPoint === room ) {
     statusCode = 201;
-
-    console.log('YUUUUU loses (post)');
-    // first find data property on request
-    // parse the string
-    // add the objet/string to our data
-      let body = [];
+      let body = '';
       request.on('error', (err) => {
         console.error(err);
       }).on('data', (chunk) => {
-        // console.log(' inside data. arguemnts!!!!;',arguments);
-        body.push(chunk);
-        // console.log('chunck!!!!!',chunk.toString()); // if this is a longer obj need on 'end'
+        body+=chunk
       }).on('end', () => {
-        // console.log('arguemnts!!!!;',arguments);
-        console.log('request.data',request.data);
-        body = Buffer.concat(body).toString();
-        // body = body.join(',').toString();
-        // console.log('testBody!!!',testBody);
-        // body = '/?' + body;
 
-        // console.log('using url2',require('url').parse(body, true));
-
-        // objectId, createdAt
-        // console.log('before parse', typeof body);
         obj = JSON.parse(body);
-        // response.end(JSON.stringify(obj));
-        // console.log('after parse',typeof body);
-
-        // var obj = qs.parse(body);
-
-        // console.log('type!!!', obj);
 
         obj.objectId = objectIdCount++;
         obj.createdAt = new Date().toISOString();
 
         responseData.results.push(obj);
-        console.log('inside post',responseData);
 
       })
   }
 
-  // response.statusCode = 404
-
-
-  // CHECK TYPE OF REQUEST (GET/POST/PUT)
-  // CHANGE STATUS CODE PER
-  // IF GET THEN RESPONSE.END SHOULD BE RESPONDIND W RESPONSEDATA
-    // IF POST THEN NEED TO GET THE DATA AND PUT IN OBJECT
-
   // The outgoing status.
-  
 
   // See the note below about CORS headers.
   var headers = defaultCorsHeaders;
@@ -148,14 +115,7 @@ var defaultCorsHeaders = {
   'access-control-max-age': 10 // Seconds.
 };
 
-
-// module.exports = requestHandler;
 module.exports.requestHandler = requestHandler;
-
-// exports.requestHandler = requestHandler;
-
-
 
 // look up why .end breaks if put in a conditional
 // read code for piping above
-// 

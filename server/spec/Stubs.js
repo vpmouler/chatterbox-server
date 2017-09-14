@@ -33,7 +33,9 @@ module.exports = {
         callback();
       }
 
+      return this
     }.bind(this);
+    
   }
 
 };
