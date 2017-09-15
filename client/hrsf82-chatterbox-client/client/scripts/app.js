@@ -44,6 +44,7 @@ var app = {
       type: 'POST',
       data: JSON.stringify(message),
       success: function (data) {
+        console.log('data that is sending!', data);
         // Clear messages input
         app.$message.val('');
 
@@ -60,7 +61,7 @@ var app = {
     $.ajax({
       url: app.server,
       type: 'GET',
-      data: { order: '-createdAt' },
+      // data: { order: '-createdAt' },
       contentType: 'application/json',
       success: function(data) {
         console.log('data coming back',data);

@@ -33,7 +33,8 @@ module.exports = {
         callback();
       }
 
-      return this
+      return this // WE ADDED THIS!!!
+
     }.bind(this);
     
   }

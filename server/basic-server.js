@@ -1,7 +1,54 @@
 /* Import node's http module: */
 var http = require('http');
-var handleRequest = require('./request-handler').requestHandler
+// var handleRequest = require('./request-handler').requestHandler
 var url = require('url');
+
+var express = require('express')
+var app = express()
+
+var responseData = {results:[{
+  text: 'this is the text from express',
+  username: 'yotta!',
+  roomname: 'lobby'
+}]};
+
+// app.use(allowCrossDomain);
+
+// var defaultCorsHeaders = {
+//   'access-control-allow-origin': '*',
+//   'access-control-allow-methods': 'GET, POST, PUT, DELETE, OPTIONS',
+//   'access-control-allow-headers': 'content-type, accept',
+//   'access-control-max-age': 10 // Seconds.
+// };
+
+app.get('/classes/messages', function(request,response) {
+
+  response.status(200).json(responseData)
+  // console.log('inside get of express', request.method);
+})
+
+app.post('/classes/messages', (request,response) => {
+  response.header(defaultCorsHeaders)
+  response.send('in the post!!')
+  console.log('inside post of express');
+})
+
+// app.options('/classes/messages', (request,response) => {
+//   // request.header('Access-Control-Allow-Origin', '*');
+//   // request.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
+//   // request.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, Content-Length, X-Requested-With');
+//   response.status(200).send(JSON.stringify({}));
+// })
+
+
+var server = http.createServer(app)
+
+/*
+app.use(app.router); 
+app.use(express.static(__dirname + '/public'));
+*/
+
+
 
 // Every server needs to listen on a port with a unique number. The
 // standard port for HTTP servers is port 80, but that port is
@@ -16,16 +63,17 @@ var port = 3000;
 var ip = '127.0.0.1';
 
 
-
 // We use node's http module to create a server.
 //
 // The function we pass to http.createServer will be used to handle all
 // incoming requests.
 //
 // After creating the server, we will tell it to listen on the given port and IP. */
-var server = http.createServer(handleRequest);
-console.log('Listening on http://' + ip + ':' + port + 'this is the URL require, SEVA' + url);
+// var server = http.createServer(handleRequest);
+console.log('Listening on http://' + ip + ':' + port + 'SEVA this is URL module:' + url);
 server.listen(port, ip);
+
+
 
 // To start this server, run:
 //
